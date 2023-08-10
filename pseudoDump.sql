@@ -7,13 +7,13 @@ CREATE TABLE users (
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE address (
+CREATE TABLE addresses (
 	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	"idUser" UUID NOT NULL REFERENCES users(id),
 	cep VARCHAR(8) NOT NULL,
 	city VARCHAR(32) NOT NULL,
 	street VARCHAR(32) NOT NULL,
-	lotNumber VARCHAR(16),
+	lotNumber INT,
 	complement VARCHAR(255),
 	neighborhood VARCHAR(32) NOT NULL,
 	"federalUnit" VARCHAR(32) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE services (
     "serviceDescription" VARCHAR(255) NOT NULL,
     price INTEGER NOT NULL,
     "paymentDescription" VARCHAR(255) DEFAULT 'A conversar...',
-    "idActive" BOOLEAN DEFAULT true,
+    "isActive" BOOLEAN DEFAULT true,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE "servicesCategories" (
 CREATE TABLE "servicePhotos" (
 	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	"serviceId" UUID NOT NULL,-- REFERENCES services(id),
-    "photoUrl" VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
