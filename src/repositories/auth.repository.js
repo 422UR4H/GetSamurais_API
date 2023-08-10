@@ -1,12 +1,12 @@
 import { clientDB } from "../database/db.connection.js";
 
-export function createUserDB(name, email, password) {
+export function createUserDB(name, nick, email, password) {
     return clientDB.query(
-        `INSERT INTO users (name, email, password)
-        VALUES ($1, $2, $3)
+        `INSERT INTO users (name, nick, email, password)
+        VALUES ($1, $2, $3, $4)
         ON CONFLICT (email) DO NOTHING
         RETURNING *;`,
-        [name, email, password]);
+        [name, nick, email, password]);
 }
 
 export function getUserByEmailDB(email) {

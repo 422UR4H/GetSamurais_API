@@ -1,14 +1,15 @@
 CREATE TABLE users (
-	id SERIAL PRIMARY KEY,
-	name VARCHAR(32) NOT NULL,
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	name VARCHAR(64) NOT NULL,
+    nick VARCHAR(16) NOT NULL,
 	email VARCHAR(64) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE address (
-	id SERIAL PRIMARY KEY,
-	"idUser" INT REFERENCES users(id),
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"idUser" UUID NOT NULL REFERENCES users(id),
 	cep VARCHAR(8) NOT NULL,
 	city VARCHAR(32) NOT NULL,
 	street VARCHAR(32) NOT NULL,
@@ -20,54 +21,63 @@ CREATE TABLE address (
 );
 
 CREATE TABLE phones (
-	id SERIAL PRIMARY KEY,
-	"userId" INTEGER REFERENCES users(id),
-    "phoneNumber" INTEGER 
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"userId" UUID NOT NULL REFERENCES users(id),
+    "phoneNumber" VARCHAR(11) NOT NULL, 
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE services (
-	id SERIAL PRIMARY KEY,
-	"userId" INTEGER REFERENCES users(id),
-    "mainPhoto" INTEGER REFERENCES "servicePhotos"(id),
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"userId" UUID NOT NULL REFERENCES users(id),
+    "mainPhoto" UUID,-- REFERENCES "servicePhotos"(id),
     "serviceName" VARCHAR(32) NOT NULL,
     "serviceDescription" VARCHAR(255) NOT NULL,
     price INTEGER NOT NULL,
     "paymentDescription" VARCHAR(255) DEFAULT 'A conversar...',
+    "idActive" BOOLEAN DEFAULT true,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE categories (
-	id SERIAL PRIMARY KEY,
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     category VARCHAR(32) NOT NULL,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE servicesCategories (
-	id SERIAL PRIMARY KEY,
-	"categoryId" INTEGER REFERENCES category(id),
-	"serviceId" INTEGER REFERENCES services(id)
+CREATE TABLE "servicesCategories" (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"categoryId" UUID NOT NULL REFERENCES categories(id),
+	"serviceId" UUID NOT NULL REFERENCES services(id)
 );
 
 CREATE TABLE "servicePhotos" (
-	id SERIAL PRIMARY KEY,
-	"serviceId" INTEGER REFERENCES services(id),
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"serviceId" UUID NOT NULL,-- REFERENCES services(id),
     "photoUrl" VARCHAR(255) NOT NULL,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE feedbacks (
-	id SERIAL PRIMARY KEY,
-	"serviceId" INTEGER REFERENCES services(id),
-	"userId" INTEGER REFERENCES users(id),
-    feedback VARCHAR(255) NOT NULL,
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"serviceId" UUID NOT NULL REFERENCES services(id),
+	"userId" UUID NOT NULL REFERENCES users(id),
+    feedback VARCHAR(255),
+    stars INTEGER,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE comments (
-	id SERIAL PRIMARY KEY,
-	"feedbackId" INTEGER REFERENCES "feedbacks"(id),
-	"userId" INTEGER REFERENCES users(id),
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	"feedbackId" UUID NOT NULL REFERENCES "feedbacks"(id),
+	"userId" UUID NOT NULL REFERENCES users(id),
     comment VARCHAR(255) NOT NULL,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
+
+
+ALTER TABLE "servicePhotos"
+ADD FOREIGN KEY ("serviceId") REFERENCES services(id);
+
+ALTER TABLE services
+ADD FOREIGN KEY ("mainPhoto") REFERENCES "servicePhotos"(id);

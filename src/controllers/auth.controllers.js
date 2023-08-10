@@ -10,11 +10,11 @@ dotenv.config();
 
 
 export async function signUp(req, res) {
-    const { name, email, password } = req.body;
+    const { name, nick, email, password } = req.body;
     const hash = bcrypt.hashSync(password, 10);
 
     try {
-        const result = await createUserDB(name, email, hash);
+        const result = await createUserDB(name, nick, email, hash);
         if (result.rowCount === 0) {
             return res.status(409).send({ message: "E-mail já cadastrado!" });
         }
