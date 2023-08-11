@@ -1,10 +1,15 @@
 import Joi from "joi";
+import { categorySchema } from "./category.schemas.js";
+
+const { category } = categorySchema;
+console.log(category)
 
 export const serviceSchema = Joi.object({
     mainPhoto: Joi.string().uuid({ version: ['uuidv4'] }).max(255),
-    serviceName: Joi.string().alphanum().max(32).required(),
-    serviceDescription: Joi.string().alphanum().max(255).required(),
+    serviceName: Joi.string().max(32).required(),
+    serviceDescription: Joi.string().max(255).required(),
     price: Joi.number().integer().greater(0).required(),
-    paymentDescription: Joi.string().alphanum().max(255),
-    isActive: Joi.boolean()
+    paymentDescription: Joi.string().max(255),
+    status: Joi.boolean(),
+    category
 });

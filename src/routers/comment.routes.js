@@ -8,14 +8,14 @@ import {
     getCommentsByUser,
     updateComment,
     deleteComment
-} from "../controllers/comments.controllers.js";
+} from "../controllers/comment.controllers.js";
 
 
 const router = Router();
 
 router.post("/comments", validateAuth, validateSchema(commentSchema), createComment);
-router.get("/comments/feedback/:id", getCommentsByFeedback);
 router.get("/comments/user/:id", validateAuth, getCommentsByUser);
+router.get("/comments/feedback/:id", getCommentsByFeedback);
 router.put("/comments", validateAuth, validateSchema(commentSchema), updateComment);
 router.delete("/comments", validateAuth, deleteComment);
 

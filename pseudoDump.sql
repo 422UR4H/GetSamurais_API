@@ -34,7 +34,7 @@ CREATE TABLE services (
 	"serviceDescription" VARCHAR(255) NOT NULL,
 	price INTEGER NOT NULL,
 	"paymentDescription" VARCHAR(255) DEFAULT 'A conversar...',
-	"isActive" BOOLEAN DEFAULT true,
+	status BOOLEAN DEFAULT true,
 	"createdAt" TIMESTAMP DEFAULT NOW()
 );
 CREATE TABLE categories (
