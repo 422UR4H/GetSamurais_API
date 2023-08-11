@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { getUserByIdDB } from "../repositories/auth.repository.js";
+import { getUserByIdDB } from "../repositories/user.repository.js";
 
 dotenv.config();
 

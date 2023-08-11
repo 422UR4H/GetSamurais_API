@@ -1,22 +1,33 @@
+import { createUserDB, getUserByEmailDB } from "../repositories/user.repository.js";
+import { createAddressDB } from "../repositories/address.repository.js";
+import { createPhoneDB } from "../repositories/phone.repository.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import {
-    createUserDB,
-    getUserByEmailDB
-} from "../repositories/auth.repository.js";
 
 dotenv.config();
 
 
 export async function signUp(req, res) {
-    const { name, nick, email, password } = req.body;
-    const hash = bcrypt.hashSync(password, 10);
+    const { user, address, phone } = req.body;
+    const { phoneNumber } = phone;
+    const { name, nick, email, birthday } = user;
+
+    const password = bcrypt.hashSync(user.password, 10);
 
     try {
-        const result = await createUserDB(name, nick, email, hash);
+        const result = await createUserDB(name, nick, email, password, birthday);
         if (result.rowCount === 0) {
             return res.status(409).send({ message: "E-mail já cadastrado!" });
+        }
+
+        const userId = result.rows[0].id;
+        await createAddressDB(userId, address);
+        if ((await createPhoneDB(userId, phoneNumber)).rowCount === 0) {
+            return res.status(207).send({
+                status: "warning",
+                message: "Número de telefone já cadastrado!"
+            });
         }
         res.sendStatus(201);
     } catch ({ message }) {
