@@ -7,7 +7,7 @@ import {
     updateServiceStatusDB,
     updateServiceDB,
     deleteServiceDB
-} from "../repository/service.repository.js";
+} from "../repositories/service.repository.js";
 
 
 export async function createService(req, res) {

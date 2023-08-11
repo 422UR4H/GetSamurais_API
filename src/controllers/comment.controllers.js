@@ -5,14 +5,14 @@ import {
     getCommentsByFeedbackDB,
     updateCommentDB,
     deleteCommentDB
-} from "../repository/comment.repository.js";
+} from "../repositories/comment.repository.js";
 
 
 export async function createComment(req, res) {
-    const { comment } = req.body;
+    const { feedbackId, comment } = req.body;
     const { id } = res.locals.user;
     try {
-        const result = await createCommentDB(comment, id);
+        const result = await createCommentDB(comment, feedbackId, id);
         if (result.rowCount === 0) {
             return res.status(409).send({
                 message: "Não foi possível enviar este comentário neste momento!"
@@ -45,11 +45,12 @@ export async function getCommentsByFeedback(req, res) {
 }
 
 export async function updateComment(req, res) {
-    const { comment } = req.body;
-    const { user } = res.locals;
-    const { id } = req.params;
+    const { feedbackId, comment } = req.body;
+    const userId = res.locals.user.id;
+    const commentId = req.params.id;
+
     try {
-        const result = await updateCommentDB(comment, id, user.id);
+        const result = await updateCommentDB(commentId, userId, feedbackId, comment);
 
         if (result.rowCount === 0) {
             if ((await getCommentByIdDB(id)).rowCount === 0) {

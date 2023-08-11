@@ -5,14 +5,14 @@ import {
     getFeedbacksByServiceDB,
     updateFeedbackDB,
     deleteFeedbackDB
-} from "../repository/feedback.repository.js";
+} from "../repositories/feedback.repository.js";
 
 
 export async function createFeedback(req, res) {
-    const { feedback, stars } = req.body;
+    const { serviceId, feedback, stars } = req.body;
     const { id } = res.locals.user;
     try {
-        const result = await createFeedbackDB(feedback, stars, id);
+        const result = await createFeedbackDB(feedback, stars, id, serviceId);
         if (result.rowCount === 0) {
             return res.status(409).send({
                 message: "Não foi possível enviar esta avaliação neste momento!"
@@ -45,14 +45,14 @@ export async function getFeedbacksByUser(req, res) {
 }
 
 export async function updateFeedback(req, res) {
-    const { feedback } = req.body;
+    const { serviceId, feedback, stars } = req.body;
     const { user } = res.locals;
-    const { id } = req.params;
+    const feedbackId = req.params.id;
     try {
-        const result = await updateFeedbackDB(feedback, id, user.id);
+        const result = await updateFeedbackDB(serviceId, feedback, stars, feedbackId, user.id);
 
         if (result.rowCount === 0) {
-            if ((await getFeedbackByIdDB(id)).rowCount === 0) {
+            if ((await getFeedbackByIdDB(feedbackId)).rowCount === 0) {
                 return res.status(404).send("Esta avaliação não existe!");
             } else {
                 return res.status(401).send("Acesso negado!");

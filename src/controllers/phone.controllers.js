@@ -3,7 +3,7 @@ import {
     getPhonesByUserDB,
     updatePhoneDB,
     deletePhoneDB
-} from "../repository/phone.repository.js";
+} from "../repositories/phone.repository.js";
 
 
 export async function createPhone(req, res) {

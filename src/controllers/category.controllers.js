@@ -1,4 +1,4 @@
-import { getCategoriesDB } from "../repository/category.repository.js";
+import { getCategoriesDB } from "../repositories/category.repository.js";
 
 export async function getCategories(req, res) {
     try {
