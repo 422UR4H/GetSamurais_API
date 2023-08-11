@@ -6,7 +6,6 @@ import {
     createFeedback,
     getFeedbacksByService,
     getFeedbacksByUser,
-    getFeedbacksRank,
     updateFeedback,
     deleteFeedback
 } from "../controllers/feedback.controllers.js";

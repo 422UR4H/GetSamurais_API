@@ -8,6 +8,14 @@ export function createFeedbackDB(feedback, stars, userId, serviceId) {
     );
 }
 
+export function getFeedbackByIdDB(id) {
+    return clientDB.query(
+        `SELECT * FROM feedbacks
+        WHERE id = $1;`,
+        [id]
+    );
+}
+
 export function getFeedbacksByServiceDB(serviceId) {
     return clientDB.query(
         `SELECT * FROM feedbacks

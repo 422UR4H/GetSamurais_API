@@ -8,6 +8,14 @@ export function createCommentDB(comment, feedbackId, userId) {
     );
 }
 
+export function getCommentByIdDB(id) {
+    return clientDB.query(
+        `SELECT * FROM comments
+        WHERE id = $1;`,
+        [id]
+    );
+}
+
 export function getCommentsByUserDB(userId) {
     return clientDB.query(
         `SELECT * FROM comments
@@ -16,7 +24,7 @@ export function getCommentsByUserDB(userId) {
     );
 }
 
-export function getFeedbacksByServiceDB(feedbackId) {
+export function getCommentsByFeedbackDB(feedbackId) {
     return clientDB.query(
         `SELECT * FROM comments
         WHERE "feedbackId" = $1;`,
@@ -27,7 +35,7 @@ export function getFeedbacksByServiceDB(feedbackId) {
 export function updateCommentDB(commentId, userId, feedbackId, comment) {
     return clientDB.query(
         `UPDATE comments
-        SET feedbackId = $3, comment = $4
+        SET "feedbackId" = $3, comment = $4
         WHERE id = $1 AND "userId" = $2;`,
         [commentId, userId, feedbackId, comment]
     );

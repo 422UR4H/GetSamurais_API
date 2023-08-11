@@ -10,7 +10,7 @@ export async function createPhone(req, res) {
     const { phoneNumber } = req.body;
     const { id } = res.locals.user;
     try {
-        const result = await createPhoneDB(phoneNumber, id);
+        const result = await createPhoneDB(id, phoneNumber);
         if (result.rowCount === 0) {
             return res.status(409).send({ message: "Telefone já está cadastrado!" });
         }
