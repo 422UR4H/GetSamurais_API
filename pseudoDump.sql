@@ -30,7 +30,7 @@ CREATE TABLE services (
 	"userId" UUID NOT NULL REFERENCES users(id),
 	"mainPhoto" UUID,
 	-- REFERENCES "servicePhotos"(id),
-	"serviceName" VARCHAR(32) NOT NULL,
+	service VARCHAR(32) NOT NULL,
 	"serviceDescription" VARCHAR(255) NOT NULL,
 	price INTEGER NOT NULL,
 	"paymentDescription" VARCHAR(255) DEFAULT 'A conversar...',

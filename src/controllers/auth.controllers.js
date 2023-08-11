@@ -22,6 +22,7 @@ export async function signUp(req, res) {
         }
 
         const userId = result.rows[0].id;
+        console.log(userId)
         await createAddressDB(userId, address);
         if ((await createPhoneDB(userId, phoneNumber)).rowCount === 0) {
             return res.status(207).send({

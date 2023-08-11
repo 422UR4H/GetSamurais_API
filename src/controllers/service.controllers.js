@@ -6,24 +6,32 @@ import {
     getServicesByCategoryDB,
     updateServiceStatusDB,
     updateServiceDB,
-    deleteServiceDB
+    deleteServiceDB,
+    createServiceCategoryDB
 } from "../repositories/service.repository.js";
 
 
 export async function createService(req, res) {
-    // const { services, categories } = req.body;
-    const service = req.body;
+    const { service, categories } = req.body;
+    const { category } = categories;
     const { user } = res.locals;
     try {
-        // const result = await createServiceDB(services, categories, user.id);
         const result = await createServiceDB(service, user.id);
         if (result.rowCount === 0) {
             return res.status(409).send({
                 message: "Não foi possível criar este serviço neste momento!"
             });
         }
-        const { id } = result.rows[0];
-        res.status(201).send({ id });
+
+        const serviceId = result.rows[0].id;
+        const { categoryId } = res.locals;
+        if ((await createServiceCategoryDB(serviceId, categoryId)).rowCount === 0) {
+            return res.status(207).send({
+                serviceId,
+                message: "Não foi possível associar esta categoria ao serviço no momento!"
+            });
+        }
+        res.status(201).send({ serviceId });
     } catch ({ message }) {
         res.status(500).send({ message });
     }

@@ -1,11 +1,25 @@
 import { clientDB } from "../database/db.connection.js";
 
 export function createServiceDB(service, userId) {
-    // const { service } = service;
+    const { name, serviceDescription, price, paymentDescription, status, mainPhoto } = service;
     return clientDB.query(
-        `INSERT INTO services ("userId", )
-        VALUES ($1, );`,
-        [userId,]
+        `INSERT INTO services
+            ("userId", service, "serviceDescription", price, "paymentDescription", status, "mainPhoto")
+        VALUES
+            ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *;`,
+        [userId, name, serviceDescription, price, paymentDescription, status, mainPhoto]
+    );
+}
+
+export function createServiceCategoryDB(serviceId, categoryId) {
+    return clientDB.query(
+        `INSERT INTO "servicesCategories"
+            ("serviceId", "categoryId")
+        VALUES
+            ($1, $2)
+        RETURNING *;`,
+        [serviceId, categoryId]
     );
 }
 

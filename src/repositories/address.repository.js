@@ -1,6 +1,6 @@
 import { clientDB } from "../database/db.connection.js";
 
-export function createAddressDB(address, userId) {
+export function createAddressDB(userId, address) {
     const { cep, city, street, lotNumber, complement, neighborhood, federalUnit } = address;
     return clientDB.query(
         `INSERT INTO addresses

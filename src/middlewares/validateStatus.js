@@ -7,6 +7,6 @@ export default function validateSchema(req, res, next) {
     if (!isValid(status)) {
         return res.status(422).send({ message: "status inválido! Use 'true' ou 'false'" });
     }
-    res.locals.status = status === "true" ? true : false;
+    res.locals.status = (status === "true");
     next();
 }
