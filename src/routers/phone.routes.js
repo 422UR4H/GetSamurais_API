@@ -11,9 +11,9 @@ import {
 
 const router = Router();
 
-router.post("/phone", validateAuth, validateSchema(phoneSchema), createPhone);
+router.post("/phones", validateAuth, validateSchema(phoneSchema), createPhone);
 router.get("/phones/:id", getPhonesByUser);
-router.put("/phone", validateAuth, validateSchema(phoneSchema), updatePhone);
-router.delete("/phone", validateAuth, deletePhone);
+router.put("/phones", validateAuth, validateSchema(phoneSchema), updatePhone);
+router.delete("/phones", validateAuth, deletePhone);
 
 export default router;
