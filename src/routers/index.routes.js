@@ -6,6 +6,7 @@ import commentRouter from "../routers/comment.routes.js";
 import feedbackRouter from "../routers/feedback.routes.js";
 import phoneRouter from "../routers/phone.routes.js";
 import serviceRouter from "../routers/service.routes.js";
+import userRouter from "../routers/user.routes.js";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use(commentRouter);
 router.use(feedbackRouter);
 router.use(phoneRouter);
 router.use(serviceRouter);
+router.use(userRouter);
 
 export default router;

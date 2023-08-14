@@ -20,7 +20,21 @@ export function getUserByEmailDB(email) {
 export function getUserByIdDB(id) {
     return clientDB.query(
         `SELECT * FROM users
-        WHERE users.id = $1;`,
+        WHERE id = $1;`,
         [id]
+    );
+}
+
+export function getUserByNickDB(nick) {
+    return clientDB.query(
+        `SELECT 1 FROM users
+        WHERE nick = $1`,
+        [nick]
+    );
+}
+
+export function getUsersCountDB() {
+    return clientDB.query(
+        `SELECT COUNT(id) AS "usersAmount" FROM users`,
     );
 }

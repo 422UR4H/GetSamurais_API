@@ -7,31 +7,44 @@ import {
     updateServiceStatusDB,
     updateServiceDB,
     deleteServiceDB,
-    createServiceCategoryDB
+    createServiceCategoryDB,
+    getAllServicesDB,
+    getServicesCountDB,
+    updateServiceCategoryDB,
+    getServiceAllInfoDB
 } from "../repositories/service.repository.js";
 
 
 export async function createService(req, res) {
-    const { service, categories } = req.body;
-    const { category } = categories;
+    const { service } = req.body;
     const { user } = res.locals;
     try {
-        const result = await createServiceDB(service, user.id);
-        if (result.rowCount === 0) {
+        const serviceResult = (await createServiceDB(service, user.id)).rows[0];
+        if (!serviceResult) {
             return res.status(409).send({
                 message: "Não foi possível criar este serviço neste momento!"
             });
         }
 
-        const serviceId = result.rows[0].id;
         const { categoryId } = res.locals;
-        if ((await createServiceCategoryDB(serviceId, categoryId)).rowCount === 0) {
+        if ((await createServiceCategoryDB(serviceResult.id, categoryId)).rowCount === 0) {
             return res.status(207).send({
-                serviceId,
+                service: serviceResult,
                 message: "Não foi possível associar esta categoria ao serviço no momento!"
             });
         }
-        res.status(201).send({ serviceId });
+
+        serviceResult.category = req.body.categories.category;
+        res.status(201).send({ service: serviceResult });
+    } catch ({ message }) {
+        res.status(500).send({ message });
+    }
+}
+
+export async function getAllServices(req, res) {
+    try {
+        const result = await getAllServicesDB();
+        res.send({ services: result.rows });
     } catch ({ message }) {
         res.status(500).send({ message });
     }
@@ -45,6 +58,19 @@ export async function getServiceById(req, res) {
             return res.status(404).send("Este serviço não existe!");
         }
         res.send({ service: result.rows[0] });
+    } catch ({ message }) {
+        res.status(500).send({ message });
+    }
+}
+
+export async function getServicesAllInfo(req, res) {
+    const { id } = req.params;
+    try {
+        const service = (await getServiceAllInfoDB(id)).rows[0];
+        if (!service) {
+            return res.status(404).send("Este serviço não existe!");
+        }
+        res.send({ service });
     } catch ({ message }) {
         res.status(500).send({ message });
     }
@@ -86,6 +112,15 @@ export async function getServicesByCategory(req, res) {
     }
 }
 
+export async function getServicesCount(req, res) {
+    try {
+        const result = await getServicesCountDB();
+        res.send(result.rows[0]);
+    } catch ({ message }) {
+        res.status(500).send({ message });
+    }
+}
+
 export async function updateServiceStatus(req, res) {
     const { user, status } = res.locals;
     const { id } = req.params;
@@ -109,17 +144,26 @@ export async function updateService(req, res) {
     const { service } = req.body;
     const { user } = res.locals;
     const { id } = req.params;
-    try {
-        const result = await updateServiceDB(service, id, user.id);
 
-        if (result.rowCount === 0) {
+    try {
+        const serviceResult = (await updateServiceDB(service, id, user.id)).rows[0];
+        if (!serviceResult) {
             if ((await getServiceByIdDB(id)).rowCount === 0) {
                 return res.status(404).send("Este serviço não existe!");
             } else {
                 return res.status(401).send("Acesso negado!");
             }
         }
-        res.sendStatus(204);
+
+        const { categoryId } = res.locals;
+        if ((await updateServiceCategoryDB(serviceResult.id, categoryId)).rowCount === 0) {
+            return res.status(207).send({
+                service: serviceResult,
+                message: "Não foi possível associar esta categoria ao serviço no momento!"
+            });
+        }
+        serviceResult.category = req.body.categories.category;
+        res.send({ service: serviceResult });
     } catch ({ message }) {
         res.status(500).send({ message });
     }

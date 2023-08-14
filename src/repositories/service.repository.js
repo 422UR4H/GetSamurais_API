@@ -23,34 +23,81 @@ export function createServiceCategoryDB(serviceId, categoryId) {
     );
 }
 
-export function getServiceByIdDB(id) {
+export function updateServiceCategoryDB(serviceId, categoryId) {
     return clientDB.query(
-        `SELECT * FROM services
-        WHERE id = $1;`,
+        `UPDATE "servicesCategories"
+        SET "categoryId" = $1
+        WHERE "serviceId" = $2
+        RETURNING *;`,
+        [categoryId, serviceId]
+    );
+}
+
+export function getAllServicesDB() { // feedbacks
+    return clientDB.query(
+        `SELECT s.*, c.category
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        WHERE s.status = true;`
+    );
+}
+
+export function getServiceByIdDB(id) { // feedbacks comments "servicePhotos"
+    return clientDB.query(
+        `SELECT s.*, c.category
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        WHERE s.id = $1;`,
         [id]
     );
 }
 
-export function getServicesRankDB(limit) {
+export function getServiceAllInfoDB(id) { // feedbacks comments "servicePhotos"
     return clientDB.query(
-        `SELECT * FROM services
+        `SELECT s.*, u.nick, u.name, u.email, c.category, p."phoneNumber"
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        JOIN users AS u ON s."userId" = u.id
+        JOIN phones AS p ON p."userId" = u.id
+        WHERE s.id = $1;`,
+        [id]
+    );
+}
+
+export function getServicesRankDB(limit) { // feedbacks "servicePhotos"
+    return clientDB.query(
+        `SELECT s.*, c.category
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        WHERE s.status = true
         LIMIT $1;`,
         [limit]
     );
 }
 
-export function getServicesByUserDB(id) {
+export function getServicesByUserDB(id) { // feedbacks comments "servicePhotos"
     return clientDB.query(
-        `SELECT * FROM services
-        WHERE id = $1;`,
+        `SELECT s.*, c.category
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        JOIN users AS u ON s."userId" = u.id
+        WHERE u.id = $1;`,
         [id]
     );
 }
 
-export function getServicesByCategoryDB(category) {
+export function getServicesByCategoryDB(category) { // feedbacks comments "servicePhotos"
     return clientDB.query(
-        `SELECT * FROM services
-        WHERE category = $1;`,
+        `SELECT s.*, c.category
+        FROM "servicesCategories" AS sc
+        JOIN services AS s ON sc."serviceId" = s.id
+        JOIN categories AS c ON sc."categoryId" = c.id
+        WHERE c.category = $1 AND s.status = true;`,
         [category]
     );
 }
@@ -65,12 +112,14 @@ export function updateServiceStatusDB(status, id, userId) {
 }
 
 export function updateServiceDB(service, id, userId) {
-    // const { service } = service;
+    console.log(service)
+    const { name, serviceDescription, price, paymentDescription, status, mainPhoto } = service;
     return clientDB.query(
         `UPDATE services
-        SET service = $3
-        WHERE id = $1 AND "userId" = $2;`,
-        [id, userId, service]
+        SET service = $3, "serviceDescription" = $4, price = $5, "paymentDescription" = $6, status = $7, "mainPhoto" = $8
+        WHERE id = $1 AND "userId" = $2
+        RETURNING *;`,
+        [id, userId, name, serviceDescription, price, paymentDescription, status, mainPhoto]
     );
 }
 
@@ -79,5 +128,13 @@ export function deleteServiceDB(id, userId) {
         `DELETE FROM services
         WHERE id = $1 AND "userId" = $2;`,
         [id, userId]
+    );
+}
+
+export function getServicesCountDB() {
+    return clientDB.query(
+        `SELECT COUNT(id) AS "servicesAmount"
+        FROM services
+        WHERE status = true`,
     );
 }
