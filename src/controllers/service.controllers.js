@@ -87,13 +87,13 @@ export async function getServicesRank(req, res) {
 }
 
 export async function getServicesByUser(req, res) {
-    const { id } = req.params;
+    const { id } = res.locals.user;
     try {
         const result = await getServicesByUserDB(id);
         if (result.rowCount === 0) {
             return res.status(404).send("Este serviço não existe!");
         }
-        res.send({ service: result.rows });
+        res.send({ services: result.rows });
     } catch ({ message }) {
         res.status(500).send({ message });
     }

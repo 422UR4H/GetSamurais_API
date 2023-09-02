@@ -24,7 +24,7 @@ const router = Router();
 router.post("/services", validateAuth, validateCategories, validateSchema(serviceAndCategorySchema), createService);
 router.get("/services", getAllServices);
 router.get("/services/rank", getServicesRank);
-router.get("/services/user/:id", getServicesByUser);
+router.get("/services/user", validateAuth, getServicesByUser);
 router.get("/services/id/:id", getServiceById);
 router.get("/services/category/:category", getServicesByCategory);
 router.get("/services/count", getServicesCount);
