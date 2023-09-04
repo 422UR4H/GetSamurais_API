@@ -19,6 +19,10 @@ export async function createService(req, res) {
     const { service } = req.body;
     const { user } = res.locals;
     try {
+        const mainPhoto = await req.file;
+        const mainPhotoData = await mainPhoto.toJSON();
+        console.log(mainPhotoData)
+        return res.status(501).send(mainPhotoData);
         const serviceResult = (await createServiceDB(service, user.id)).rows[0];
         if (!serviceResult) {
             return res.status(409).send({
