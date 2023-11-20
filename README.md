@@ -22,7 +22,7 @@ The characteristics of these entities are in `src/schemas`.
 
 - POST `/sign-up`: To create account with body:
 
-```json
+```yml
 {
   "user": {
     "name": "string",
@@ -48,7 +48,7 @@ The characteristics of these entities are in `src/schemas`.
 
 - POST `/sign-in`: To login with body:
 
-```json
+```yml
 {
   "email": "string",
   "password": "string"
@@ -57,7 +57,7 @@ The characteristics of these entities are in `src/schemas`.
 
 - POST `/services`: To create a new service with body:
 
-```json
+```yml
 {
   "service": {
     "name": "string",
@@ -92,7 +92,7 @@ To run this project under development, you need to follow the steps below:
 - Then create the `.env` file based on `.env.example`;
 - This `.env` file is composed of the following properties:
 
-```json
+```bash
 DATABASE_URL=postgres://postgres:postgres@urlexample/database
 JWT_SECRET=textkey
 PORT=4224
