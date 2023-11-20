@@ -1,0 +1,195 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "get samurais",
+    "dateExported": "2023-11-20T23:25:46.049Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "7994e3a1-12c5-42fb-ab74-5b880c8af46d",
+            "name": "auth",
+            "containerId": "",
+            "created": "2023-08-10T02:08:40.689Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "138e84f9-e5a8-42d1-85b8-a2d82bd92bb6",
+            "name": "address",
+            "containerId": "",
+            "created": "2023-08-10T02:08:49.792Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "e809af95-3bbe-44d9-8c5b-1751b2169865",
+            "name": "services",
+            "containerId": "",
+            "created": "2023-08-11T21:18:52.095Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "94280c85-14ac-4b82-adb0-3ef0b7c75392",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "138e84f9-e5a8-42d1-85b8-a2d82bd92bb6",
+            "name": "get address",
+            "url": "localhost:5000/address/27276490",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-08-10T02:08:58.767Z",
+            "modified": "2023-08-10T02:25:41.551Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bc856769-9307-482f-a683-3a93f5ec21f0",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "138e84f9-e5a8-42d1-85b8-a2d82bd92bb6",
+            "name": "test",
+            "url": "http://viacep.com.br/ws/27276490/json",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-08-10T02:43:58.709Z",
+            "modified": "2023-08-10T02:44:52.422Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "782e9134-56af-4768-a27a-d784f0ccec68",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "7994e3a1-12c5-42fb-ab74-5b880c8af46d",
+            "name": "sign-up",
+            "url": "localhost:5000/sign-up",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-08-10T19:30:53.697Z",
+            "modified": "2023-08-10T19:32:25.071Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"testing feats\",\n  \"nick\": \"test\",\n  \"email\": \"test@mail.com\",\n  \"password\": \"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "52330516-877c-4524-84ff-d0816a211988",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "7994e3a1-12c5-42fb-ab74-5b880c8af46d",
+            "name": "sign-in",
+            "url": "localhost:5000/sign-in",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-08-10T19:38:47.262Z",
+            "modified": "2023-09-01T21:57:56.491Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"donl@mail.com\",\n  \"password\": \"123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d310e33a-8c17-43c1-9908-7cc5e8f2dd1c",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "7994e3a1-12c5-42fb-ab74-5b880c8af46d",
+            "name": "new sign-up",
+            "url": "localhost:5000/sign-up",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-08-11T02:25:10.625Z",
+            "modified": "2023-08-11T21:32:31.777Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"user\": {\n    \"name\": \"error 2 phone\",\n    \"nick\": \"test2phone\",\n    \"email\": \"test2@phone.com\",\n    \"password\": \"123\",\n    \"birthday\": \"2023-08-10T15:30:00Z\"\n  },\n  \"address\": {\n    \"cep\": \"12345678\",\n    \"city\": \"Volta Redonda\",\n    \"street\": \"Rua Pedro Elias de Moura\",\n    \"lotNumber\": 95,\n    \"complement\": \"(Lot Açude I)\",\n    \"neighborhood\": \"Açude\",\n    \"federalUnit\": \"RJ\"\n  },\n  \"phone\": {\n    \"phoneNumber\": \"24999887766\"\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "41358394-cec2-45c8-bde6-0a37a805e847",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "e809af95-3bbe-44d9-8c5b-1751b2169865",
+            "name": "create service",
+            "url": "localhost:5000/services",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-08-11T21:18:58.365Z",
+            "modified": "2023-11-20T23:09:10.525Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"service\": {\n    \"name\": \"test 1\",\n    \"serviceDescription\": \"firts test\",\n    \"price\": 9999\n  },\n  \"categories\": {\n    \"category\": \"test\"\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "540326fd-03d8-4f01-ba7a-ed18f5ae1e39",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "7994e3a1-12c5-42fb-ab74-5b880c8af46d",
+            "name": "new sign-up remote",
+            "url": "https://getsamurais-api-yfbn.onrender.com/sign-up",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-11-20T22:42:04.814Z",
+            "modified": "2023-11-20T22:45:45.531Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"user\": {\n    \"name\": \"error 2 phone\",\n    \"nick\": \"test2phone\",\n    \"email\": \"test2@phone.com\",\n    \"password\": \"123\",\n    \"birthday\": \"2023-08-10T15:30:00Z\"\n  },\n  \"address\": {\n    \"cep\": \"12345678\",\n    \"city\": \"Volta Redonda\",\n    \"street\": \"Rua Pedro Elias de Moura\",\n    \"lotNumber\": 95,\n    \"complement\": \"(Lot Açude I)\",\n    \"neighborhood\": \"Açude\",\n    \"federalUnit\": \"RJ\"\n  },\n  \"phone\": {\n    \"phoneNumber\": \"24999887766\"\n  }\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4537469b-ac29-45b3-8a20-c13d25955959",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "e809af95-3bbe-44d9-8c5b-1751b2169865",
+            "name": "get all services",
+            "url": "https://getsamurais-api-yfbn.onrender.com/services",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-08-13T16:05:51.069Z",
+            "modified": "2023-08-18T16:29:14.661Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "4b3ecb7c-ffdc-40e0-be26-fea7965315be",
+            "colId": "80f20a98-70b3-4292-b36f-b7df8acd795e",
+            "containerId": "e809af95-3bbe-44d9-8c5b-1751b2169865",
+            "name": "get services by user",
+            "url": "https://getsamurais-api-yfbn.onrender.com/services/user",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2023-09-02T18:35:38.910Z",
+            "modified": "2023-11-20T23:12:13.949Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                }
+            ],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "settings": {
+        "envId": "9afc9f7d-676e-4807-821e-ed0c2f820cba"
+    }
+}
